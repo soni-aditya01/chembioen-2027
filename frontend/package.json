@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "update:brochure": "node scripts/update-brochure.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
+    "pdf-lib": "^1.17.1",
     "vite": "^6.4.1"
   }
 }
