@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, Route, Routes, useLocation, useParams } from "react-router-dom";
 import {
   ANNOUNCEMENTS,
+  ABSTRACT_SUBMISSION_URL,
   CONTACT_PERSONS,
   DEADLINES,
   PREVIOUS_CONFERENCES,
   PUBLICATIONS,
   REGISTRATION_URL,
-  THEMES,
-  FEES
+  THEMES
 } from "./content.js";
 
 const brochureUrl = "/Brochure_Chembioen_2027_with_contacts.pdf";
-const registrationUrl = REGISTRATION_URL.trim();
-const registrationUrlIsValid = /^https:\/\/(?:[a-z\d-]+\.)+[a-z\d-]+(?::\d+)?(?:\/[^\s]*)?$/i.test(registrationUrl);
+const isValidFormUrl = (url) => /^https:\/\/(?:[a-z\d-]+\.)+[a-z\d-]+(?::\d+)?(?:\/[^\s]*)?$/i.test(url.trim());
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,9 +21,9 @@ function Header() {
   return (
     <header className="site-header">
       <nav className="nav-shell container" aria-label="Main navigation">
-        <Link className="brand" to="/" onClick={closeMenu} aria-label="ChemBioEN 2027 home">
+        <Link className="brand" to="/" onClick={closeMenu} aria-label="chembioen 2027 home">
           <span className="brand-symbol" aria-hidden="true"><span>CB</span><i /></span>
-          <span className="brand-words"><strong>ChemBioEN <em>2027</em></strong><small>4th International Conference</small></span>
+          <span className="brand-words"><strong>chembioen <em>2027</em></strong><small>4th International Conference</small></span>
         </Link>
         <div className="host-placeholder" aria-label="Organized by Chemical Engineering, NIT Jalandhar">
           <span aria-hidden="true">N</span><small>Chemical Engineering<br />NIT Jalandhar</small>
@@ -39,11 +38,24 @@ function Header() {
             <NavLink to="/thematic-areas" onClick={closeMenu}>Thematic Areas</NavLink>
             <NavLink to="/publications" onClick={closeMenu}>Publications</NavLink>
             <NavLink to="/invited-speakers" onClick={closeMenu}>Invited Speakers</NavLink>
-            <NavLink to="/previous-conferences" onClick={closeMenu}>Previous Conferences</NavLink>
+            <div className="nav-dropdown">
+              <NavLink className="nav-dropdown-trigger" to="/previous-conferences" onClick={closeMenu}>Previous Conferences</NavLink>
+              <div className="previous-conference-menu">
+                <table aria-label="Previous conference editions">
+                  <tbody>
+                    {PREVIOUS_CONFERENCES.map((conference) => (
+                      <tr key={conference.year}>
+                        <td><Link to={`/previous-conferences/${conference.year}`} onClick={closeMenu}>chembioen {conference.year}</Link></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
             <NavLink to="/contact" onClick={closeMenu}>Contact</NavLink>
           </div>
           <div className="nav-actions">
-            <RegistrationAction className="button button-primary button-small">Register</RegistrationAction>
+            <Link className="button button-primary button-small" to="/abstract-submission-registration" onClick={closeMenu}>Submit / Register</Link>
           </div>
         </div>
       </nav>
@@ -51,96 +63,46 @@ function Header() {
   );
 }
 
-function RegistrationAction({ children, className = "button button-primary", label }) {
-  const [message, setMessage] = useState("");
-  const accessibleLabel = label || (typeof children === "string" ? children : undefined);
-
-  return (
-    <div className="registration-action-wrap">
-      {registrationUrlIsValid ? (
-        <a className={className} href={registrationUrl} target="_blank" rel="noopener noreferrer" aria-label={accessibleLabel}>{children}</a>
-      ) : (
-        <button
-          className={className}
-          type="button"
-          aria-label={accessibleLabel}
-          onClick={() => setMessage(registrationUrl ? "The registration link has not been configured with a valid HTTPS URL yet." : "The registration form link will be added when it is available.")}
-        >
-          {children}
-        </button>
-      )}
-      {message && <span className="registration-status" role="status">{message}</span>}
-    </div>
-  );
-}
-
-function SectionHeading({ eyebrow, title, children }) {
-  return <div className="section-heading"><p className="eyebrow">{eyebrow}</p><h2>{title}</h2><span className="heading-rule" /><p>{children}</p></div>;
-}
-
-function AnnouncementTicker() {
-  const [paused, setPaused] = useState(false);
-  const announcements = [
-    "4th International Conference on Chemical, Bio & Environmental Engineering",
-    "Hybrid mode",
-    "Abstracts invited in Biofuels and Biomaterials",
-    "Conference dates to be announced"
-  ];
-  return (
-    <div className={`announcement${paused ? " is-paused" : ""}`} role="region" aria-label="Conference announcements">
-      <span className="sr-only">Conference dates, programme details and registration information are to be confirmed.</span>
-      <div className="ticker-viewport">
-        <div className="ticker-track" aria-hidden="true">
-          {[0, 1].map((copy) => (
-            <div className={`ticker-group${copy ? " ticker-group-duplicate" : ""}`} key={copy}>
-              {announcements.map((announcement) => <span className="ticker-item" key={announcement}><i>★</i>{announcement}</span>)}
-            </div>
-          ))}
-        </div>
-      </div>
-      <button className="ticker-toggle" type="button" aria-label={paused ? "Resume moving announcements" : "Pause moving announcements"} aria-pressed={paused} onClick={() => setPaused(!paused)}>{paused ? "▶" : "Ⅱ"}</button>
-    </div>
-  );
-}
-
-function AnnouncementsBlock() {
+function AnnouncementsCard() {
   const latest = ANNOUNCEMENTS.find((announcement) => announcement.latest);
-  const previous = ANNOUNCEMENTS.filter((announcement) => !announcement.latest);
 
   return (
-    <section className="homepage-updates section" id="announcements" aria-labelledby="announcements-title">
-      <div className="container homepage-updates-grid">
-        <article className="brochure-card">
-          <p className="eyebrow">Conference information</p>
-          <h2>Brochure</h2>
-          <p>Read or download the ChemBioEN 2027 conference brochure, including the contact information addendum.</p>
-          <a className="button button-outline" href={brochureUrl} target="_blank" rel="noopener noreferrer">View brochure <span aria-hidden="true">↗</span></a>
-          <a className="brochure-download" href={brochureUrl} download>Download the brochure</a>
-        </article>
-        <article className="announcements-card">
-          <div className="announcements-heading">
-            <div><p className="eyebrow">Conference updates</p><h2 id="announcements-title">Announcements</h2></div>
-            <span className="placeholder-badge">Dates to be confirmed</span>
-          </div>
-          {latest && <div className="latest-announcement">
-            <span className="latest-label">Latest announcement · placeholder</span>
-            <h3>{latest.title}</h3>
-            <p>{latest.body}</p>
-          </div>}
-          <div className="deadline-list" aria-label="Conference deadlines">
-            {DEADLINES.map(({ label, value }) => <p className="deadline-item" key={label}><strong>{label}:</strong><span>{value}</span></p>)}
-          </div>
-          <details className="previous-announcements">
-            <summary>Previous announcements <span aria-hidden="true">⌄</span></summary>
-            {previous.length ? (
-              <ol>{previous.map((item) => <li key={item.id}><strong>{item.title}</strong><span>{item.body}</span></li>)}</ol>
-            ) : (
-              <p>No previous official announcements have been published.</p>
-            )}
-          </details>
-        </article>
+    <article className="announcements-card" id="announcements" aria-labelledby="announcements-title">
+      <div className="announcements-heading">
+        <div><p className="eyebrow">Conference updates</p><h2 id="announcements-title">Announcements</h2></div>
+        <span className="placeholder-badge">Key dates</span>
       </div>
-    </section>
+      {latest && <div className="latest-announcement">
+        <h3>{latest.title}</h3>
+        <p>{latest.body}</p>
+      </div>}
+      <div className="deadline-list" aria-label="Conference deadlines">
+        {DEADLINES.map(({ label, value }) => <p className="deadline-item" key={label}><strong>{label}:</strong><span>{value}</span></p>)}
+      </div>
+    </article>
+  );
+}
+
+function BrochureCard() {
+  return (
+    <article className="brochure-card">
+      <p className="eyebrow">Organised by the Department of Chemical Engineering</p>
+      <h2>Brochure</h2>
+      <p>Read or download the chembioen 2027 conference brochure.</p>
+      <a className="button button-outline" href={brochureUrl} target="_blank" rel="noopener noreferrer">View brochure <span aria-hidden="true">↗</span></a>
+      <a className="brochure-download" href={brochureUrl} download>Download the brochure</a>
+    </article>
+  );
+}
+
+function SubmissionCard() {
+  return (
+    <Link className="submission-card" to="/abstract-submission-registration">
+      <p className="eyebrow">For participants and authors</p>
+      <h2>Abstract submission &amp; registration</h2>
+      <p>Use the official Google Forms to submit an abstract or register for the conference.</p>
+      <span className="button button-primary">Click here <span aria-hidden="true">→</span></span>
+    </Link>
   );
 }
 
@@ -149,44 +111,17 @@ function Home() {
     <main>
       <section className="hero hero-reference" id="home">
         <div className="hero-title container">
-          <p className="hero-kicker"><span /> 4TH INTERNATIONAL CONFERENCE · HYBRID MODE</p>
+          <p className="hero-kicker"><span /> 4TH INTERNATIONAL CONFERENCE</p>
           <h1>4th International Conference on<br className="hero-title-break" />{" "}<span>Chemical, Bio &amp; Environmental Engineering</span></h1>
           <p className="hero-acronym">(CHEMBIOEN-2027)</p>
-        </div>
-        <div className="container ticker-wrap"><AnnouncementTicker /></div>
-        <div className="hero-content-grid container">
-          <article className="hero-detail-card">
-            <p className="eyebrow">Hosted by Chemical Engineering</p>
-            <h2>Dr. B. R. Ambedkar NIT Jalandhar</h2>
-            <p className="hero-detail-lead">Jalandhar-144008, Punjab, India · Hybrid mode</p>
-            <div className="hero-detail-item"><span aria-hidden="true">◷</span><div><strong>Conference dates</strong><p>[TO BE ANNOUNCED]</p></div></div>
-            <div className="hero-detail-item"><span aria-hidden="true">✳</span><div><strong>Abstract submissions</strong><p>Biofuels and Biomaterials, and related topics</p></div></div>
-            <div className="hero-detail-actions"><Link className="button button-primary" to="/announcements">Important updates <span aria-hidden="true">→</span></Link><Link className="button button-outline" to="/registration">Registration fees</Link></div>
-          </article>
-          <div className="hero-registration">
-            <RegistrationAction className="registration-image-link" label="Register for ChemBioEN 2027">
-              <div className="hero-showcase" role="img" aria-label="ChemBioEN illustration representing chemistry, biology and engineering">
-                <div className="showcase-orbit showcase-orbit-one" /><div className="showcase-orbit showcase-orbit-two" />
-                <div className="showcase-node node-one">C</div><div className="showcase-node node-two">B</div><div className="showcase-node node-three">E</div>
-                <div className="showcase-core"><span>C</span><i>×</i><span>B</span></div>
-                <div className="showcase-caption"><span>CHEMISTRY</span><i /><span>BIOLOGY</span><i /><span>ENGINEERING</span></div>
-              </div>
-            </RegistrationAction>
-            <div className="registration-callout">
-              <h2>Register for ChemBioEN 2027</h2>
-              <p>Click the link below to access the ChemBioEN 2027 registration form.</p>
-              <RegistrationAction className="button button-gold">Click Here to Register <span aria-hidden="true">↗</span></RegistrationAction>
-            </div>
-          </div>
+          <p className="hero-home-date">12–13 February 2027 · Dr. B. R. Ambedkar NIT Jalandhar</p>
         </div>
       </section>
-      <AnnouncementsBlock />
-      <section className="section home-pages">
-        <div className="container home-pages-grid">
-          <Link className="home-page-card" to="/about"><span className="eyebrow">The conference</span><h2>About ChemBioEN</h2><p>Learn about the conference and its interdisciplinary focus.</p><span className="inline-link">Explore About <span aria-hidden="true">→</span></span></Link>
-          <Link className="home-page-card" to="/thematic-areas"><span className="eyebrow">Conference scope</span><h2>Thematic Areas</h2><p>Explore the research themes from the conference brochure.</p><span className="inline-link">Explore themes <span aria-hidden="true">→</span></span></Link>
-          <Link className="home-page-card" to="/publications"><span className="eyebrow">For authors</span><h2>Publications</h2><p>View publication information and author resources.</p><span className="inline-link">Explore publications <span aria-hidden="true">→</span></span></Link>
-          <Link className="home-page-card" to="/previous-conferences"><span className="eyebrow">Conference archive</span><h2>Previous Conferences</h2><p>Browse the 2020, 2021, and 2023 conference pages.</p><span className="inline-link">View past conferences <span aria-hidden="true">→</span></span></Link>
+      <section className="homepage-updates section" aria-label="Conference information">
+        <div className="container homepage-updates-grid">
+          <AnnouncementsCard />
+          <BrochureCard />
+          <SubmissionCard />
         </div>
       </section>
     </main>
@@ -196,7 +131,7 @@ function Home() {
 function AboutPage() {
   return (
     <main className="content-page">
-      <PageIntro eyebrow="The conference" title="About ChemBioEN 2027">An interdisciplinary forum for chemical, bio, and environmental engineering research.</PageIntro>
+      <PageIntro eyebrow="The conference" title="About chembioen 2027">An interdisciplinary forum for chemical, bio, and environmental engineering research.</PageIntro>
       <section className="section about-section"><div className="container about-layout">
         <div className="about-visual"><div className="visual-orbit" /><div className="visual-mark">C<span>×</span>B</div><p>INTERDISCIPLINARY<br />BY NATURE</p></div>
         <div className="about-copy"><p className="eyebrow">The conference</p><h2>Chemical, Bio &amp;<br /><span>Environmental Engineering</span></h2><p>The 4th International Conference on Chemical, Bio &amp; Environmental Engineering brings academic scientists, researchers, scholars, practitioners and educators together to exchange research and discuss current innovations, trends, concerns, practical challenges and solutions in chemical and environmental engineering.</p><p className="placeholder-note">Organized by the Department of Chemical Engineering, Dr. B. R. Ambedkar National Institute of Technology Jalandhar, Punjab, India.</p><Link className="inline-link" to="/thematic-areas">Explore the conference topics <span>→</span></Link></div>
@@ -232,23 +167,41 @@ function ContactPage() {
   return (
     <main className="content-page">
       <PageIntro eyebrow="Get in touch" title="Contact &amp; location">Contact information will be updated after official details are provided.</PageIntro>
-      <section className="contact-section"><div className="container contact-layout"><div><p className="eyebrow">Conference location</p><h2>Dr. B. R. Ambedkar NIT Jalandhar</h2><p>Department of Chemical Engineering<br />Dr. B. R. Ambedkar National Institute of Technology Jalandhar-144008, Punjab, India</p><a className="inline-link" href="https://www.nitj.ac.in/" target="_blank" rel="noopener noreferrer">NIT Jalandhar website <span>↗</span></a></div><div className="contact-card contact-location"><span>⌖</span><div><strong>Getting to the institute</strong><p>15 km from Jalandhar Bus Stand · 12 km from Jalandhar City Railway Station · 18 km from Jalandhar Cantt. Railway Station, as stated in the brochure.</p></div></div></div></section>
+      <section className="contact-section"><div className="container contact-layout"><div><p className="eyebrow">Conference location</p><h2>Dr. B. R. Ambedkar NIT Jalandhar</h2><p>Department of Chemical Engineering<br />Dr. B. R. Ambedkar National Institute of Technology Jalandhar-144008, Punjab, India</p><a className="inline-link" href="https://www.nitj.ac.in/" target="_blank" rel="noopener noreferrer">NIT Jalandhar website <span>↗</span></a></div><div className="contact-card contact-location"><span>⌖</span><div><strong>Getting to the institute</strong><p>15 km from Jalandhar Bus Stand · 12 km from Jalandhar City Railway Station · 18 km from Jalandhar Cantt. Railway Station.</p></div></div></div></section>
       <section className="section"><div className="container">
-        <div className="contact-people-heading"><span className="placeholder-badge">Phone numbers and emails not provided</span><h2>Conference contact persons</h2><p>Names and organizing roles below are taken from the brochure. Reddy Sahu's designation and everyone's direct contact details still need confirmation.</p></div>
+        <div className="contact-people-heading"><span className="placeholder-badge">Phone numbers and emails not provided</span><h2>Conference contact persons</h2><p>Reddy Sahu's designation and direct contact details will be updated when confirmed.</p></div>
         <div className="contact-people-grid">{CONTACT_PERSONS.map((person) => <article className="contact-person-card" key={person.name}><h3>{person.name}</h3><p className="contact-person-role">{person.designation}</p><dl><div><dt>Phone</dt><dd>[TO BE PROVIDED]</dd></div><div><dt>Email</dt><dd>[TO BE PROVIDED]</dd></div></dl></article>)}</div>
       </div></section>
     </main>
   );
 }
 
-function RegistrationPage() {
+function FormDestination({ label, description, url }) {
+  const formUrl = url.trim();
+  const isAvailable = isValidFormUrl(formUrl);
+  const content = (
+    <>
+      <span className="form-destination-icon" aria-hidden="true">{isAvailable ? "↗" : "○"}</span>
+      <span className="form-destination-copy"><strong>{label}</strong><span>{description}</span></span>
+      <span className="form-destination-status">{isAvailable ? "Open Google Form" : "Google Forms link to be added"}</span>
+    </>
+  );
+
+  return isAvailable ? (
+    <a className="form-destination" href={formUrl} target="_blank" rel="noopener noreferrer">{content}</a>
+  ) : (
+    <div className="form-destination is-unavailable" aria-disabled="true">{content}</div>
+  );
+}
+
+function SubmissionRegistrationPage() {
   return (
     <main className="content-page">
-      <PageIntro eyebrow="Attend ChemBioEN-2027" title="Registration fees">The brochure lists the following fees. Official dates and registration instructions are to be provided.</PageIntro>
-      <section className="section registration-section"><div className="container">
-        <div className="fee-table-wrap"><table className="fee-table"><caption>Registration fee categories from the conference brochure</caption><thead><tr><th scope="col">Participant category</th><th scope="col">Indian participants (₹)</th><th scope="col">Foreign participants ($)</th></tr></thead><tbody>{FEES.map(([category, indian, foreign]) => <tr key={category}><th scope="row">{category}</th><td>{indian}</td><td>{foreign}</td></tr>)}</tbody></table></div>
-        <p className="registration-note">Registration dates and the external form link are placeholders until confirmed.</p>
-        <div className="registration-actions"><RegistrationAction className="button button-primary">Register for ChemBioEN 2027 <span>→</span></RegistrationAction><a className="button button-outline" href={brochureUrl} target="_blank" rel="noopener noreferrer">View brochure ↗</a></div>
+      <PageIntro eyebrow="For participants and authors" title="Abstract submission &amp; registration">Choose the appropriate Google Form to submit an abstract or register for the conference.</PageIntro>
+      <section className="section registration-section"><div className="container form-destination-list">
+        <FormDestination label="Abstract submission" description="Submit your abstract for consideration." url={ABSTRACT_SUBMISSION_URL} />
+        <FormDestination label="Conference registration" description="Register to attend the conference." url={REGISTRATION_URL} />
+        <p className="registration-note">The Google Forms links will be activated as soon as they are provided.</p>
       </div></section>
     </main>
   );
@@ -258,7 +211,7 @@ function AnnouncementsPage() {
   return (
     <main className="content-page">
       <PageIntro eyebrow="Conference updates" title="Announcements">Official announcements and deadline updates will be maintained here.</PageIntro>
-      <AnnouncementsBlock />
+      <section className="section"><div className="container homepage-updates-grid announcement-single"><AnnouncementsCard /></div></section>
     </main>
   );
 }
@@ -316,13 +269,13 @@ function PreviousConferencePage() {
 
   return (
     <main className="content-page">
-      <PageIntro eyebrow="Previous Conferences" title={`ChemBioEN ${conference.year}`}>{conference.description}</PageIntro>
+      <PageIntro eyebrow="Previous Conferences" title={`chembioen ${conference.year}`}>{conference.description}</PageIntro>
       <section className="section"><div className="container conference-placeholder">
         <span className="placeholder-badge">Historical information not verified</span>
         <h2>Conference details to be supplied</h2>
         <p>{conference.description}</p>
         <p>No dates, venue, speakers, or scientific achievements are published here until verified information is provided.</p>
-        <Link className="inline-link" to="/">← Return to ChemBioEN 2027</Link>
+        <Link className="inline-link" to="/">← Return to chembioen 2027</Link>
       </div></section>
     </main>
   );
@@ -336,7 +289,7 @@ function PreviousConferencesPage() {
         {PREVIOUS_CONFERENCES.map((conference) => (
           <Link className="home-page-card" key={conference.year} to={`/previous-conferences/${conference.year}`}>
             <span className="eyebrow">Conference archive</span>
-            <h2>ChemBioEN {conference.year}</h2>
+            <h2>chembioen {conference.year}</h2>
             <p>{conference.description}</p>
             <span className="inline-link">View Conference <span aria-hidden="true">→</span></span>
           </Link>
@@ -365,7 +318,8 @@ function App() {
         <Route path="/thematic-areas" element={<ThematicAreasPage />} />
         <Route path="/invited-speakers" element={<InvitedSpeakersPage />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="/registration" element={<SubmissionRegistrationPage />} />
+        <Route path="/abstract-submission-registration" element={<SubmissionRegistrationPage />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route path="/previous-conferences" element={<PreviousConferencesPage />} />
         <Route path="/previous-conferences/:year" element={<PreviousConferencePage />} />
@@ -375,11 +329,11 @@ function App() {
       </Routes>
       <footer className="site-footer">
         <div className="container footer-main">
-          <Link className="brand" to="/"><span className="brand-symbol"><span>CB</span><i /></span><span className="brand-words"><strong>ChemBioEN <em>2027</em></strong><small>International Conference</small></span></Link>
+          <Link className="brand" to="/"><span className="brand-symbol"><span>CB</span><i /></span><span className="brand-words"><strong>chembioen <em>2027</em></strong><small>International Conference</small></span></Link>
           <p>Event details will be updated as information is confirmed.</p>
           <div className="footer-links"><Link to="/publications">Publications</Link><Link to="/previous-conferences">Previous Conferences</Link><Link to="/">Back to top ↑</Link></div>
         </div>
-        <div className="footer-bottom"><div className="container"><span>© 2027 ChemBioEN</span><span>[HOST AFFILIATION TO BE CONFIRMED]</span></div></div>
+        <div className="footer-bottom"><div className="container"><span>© 2027 chembioen</span><span>Department of Chemical Engineering · NIT Jalandhar</span></div></div>
       </footer>
     </>
   );

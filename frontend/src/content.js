@@ -1,26 +1,27 @@
+export const ABSTRACT_SUBMISSION_URL = "";
 export const REGISTRATION_URL = "";
 
 export const DEADLINES = [
-  { label: "Last Date for Registration", value: "[DATE TO BE PROVIDED]" },
-  { label: "Last Date for Abstract Submission", value: "[DATE TO BE PROVIDED]" }
+  { label: "Conference Dates", value: "12–13 February 2027" },
+  { label: "Last Date for Abstract Submission", value: "15 December 2026" }
 ];
 
 export const CONTACT_PERSONS = [
   {
     name: "Dr. Jatinder Kumar Ratan",
-    designation: "Chairperson (as listed in the brochure)"
+    designation: "Chairperson"
   },
   {
     name: "Dr. Nitin Naresh Pandhare",
-    designation: "Organizing Secretary (as listed in the brochure)"
+    designation: "Organizing Secretary"
   },
   {
     name: "Dr. Anjireddy Bhavanam",
-    designation: "Organizing Secretary (as listed in the brochure)"
+    designation: "Organizing Secretary"
   },
   {
     name: "Dr. Deepak Sahu",
-    designation: "Organizing Secretary (as listed in the brochure)"
+    designation: "Organizing Secretary"
   },
   {
     name: "Reddy Sahu",
@@ -32,8 +33,8 @@ export const ANNOUNCEMENTS = [
   {
     id: "latest-placeholder",
     latest: true,
-    title: "Conference information will be shared when confirmed",
-    body: "This is a placeholder, not an official announcement. Confirmed updates will appear here."
+    title: "Conference dates and abstract deadline announced",
+    body: "The conference will take place on 12–13 February 2027. Abstracts are invited on chemical, bio, and environmental engineering topics."
   }
 ];
 
@@ -69,7 +70,7 @@ export const PUBLICATIONS = [
 export const THEMES = [
   ["Sustainable Process Design, Green Chemistry & Clean Technologies", "Sustainable process design, green chemistry and clean technologies."],
   ["Bioprocess Engineering, Industrial Biotechnology & Biorefineries", "Bioprocess engineering, industrial biotechnology and biorefinery research."],
-  ["Biomass, Bioenergy & Waste-to-Value Technologies", "Biomass conversion, bioenergy and value recovery from waste."],
+  ["Biochemical Engineering, Bioprocesses & Bio-based Technologies", "Biochemical engineering, bioprocess development and sustainable bio-based technologies."],
   ["Advanced Materials, Catalysis & Reaction Engineering", "Advanced materials, catalytic systems and reaction engineering."],
   ["Water & Wastewater Treatment and Resource Recovery", "Water treatment, wastewater treatment and resource recovery."],
   ["Air Pollution Control, Monitoring & Remediation", "Air pollution control, environmental monitoring and remediation."],
