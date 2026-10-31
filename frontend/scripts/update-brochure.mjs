@@ -13,16 +13,16 @@ const contacts = [
     designation: "[OFFICIAL DESIGNATION TO BE VERIFIED]"
   },
   {
-    name: "Reddy Sahu",
-    designation: "[DESIGNATION TO BE PROVIDED]"
+    name: "Dr. Deepak Sahu",
+    designation: "Organizing Secretary"
   },
   {
-    name: "[ADDITIONAL CONTACT PERSON 1]",
-    designation: "[DESIGNATION TO BE PROVIDED]"
+    name: "Dr. Nitin Naresh Pandhare",
+    designation: "Organizing Secretary"
   },
   {
-    name: "[ADDITIONAL CONTACT PERSON 2]",
-    designation: "[DESIGNATION TO BE PROVIDED]"
+    name: "Dr. Anjireddy Bhavanam",
+    designation: "Organizing Secretary"
   }
 ];
 
