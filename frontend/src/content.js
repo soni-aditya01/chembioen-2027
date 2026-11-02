@@ -1,6 +1,43 @@
 export const ABSTRACT_SUBMISSION_URL = "";
 export const REGISTRATION_URL = "";
 
+export const HOMEPAGE_CAMPUS_SLIDES = [
+  {
+    image: "/campus/nitj-main-building.jpg",
+    alt: "The main building at Dr. B. R. Ambedkar National Institute of Technology Jalandhar.",
+    caption: "The main building",
+    credit: "Simbu123",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Main_Building,_NIT_Jalandhar.jpg",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    image: "/campus/nitj-chemical-engineering.jpg",
+    alt: "The Department of Chemical Engineering building at NIT Jalandhar, adjoining the Department of Humanities and Management.",
+    caption: "Department of Chemical Engineering",
+    credit: "Simbu123",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Departmental_Buildings,_NIT_Jalandhar_02.JPG",
+    license: "CC0",
+    licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    image: "/campus/nitj-main-gate.jpg",
+    alt: "The main gate of Dr. B. R. Ambedkar National Institute of Technology Jalandhar.",
+    caption: "The NIT Jalandhar main gate",
+    credit: "Simbu123",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:NIT_Jalandhar_Gate.JPG",
+    license: "CC0",
+    licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    image: "/campus/nitj-campus-panorama.jpg",
+    alt: "Panoramic view across the NIT Jalandhar campus.",
+    caption: "A view across campus",
+    credit: "NIT Jalandhar",
+    sourceUrl: "https://www.nitj.ac.in/"
+  }
+];
+
 export const DEADLINES = [
   { label: "Conference Dates", value: "12–13 February 2027" },
   { label: "Abstract Submission Deadline", value: "15 December 2026" },
@@ -11,19 +48,27 @@ export const DEADLINES = [
 export const CONTACT_PERSONS = [
   {
     name: "Dr. Jatinder Kumar Ratan",
-    designation: "Chairperson"
+    designation: "Chairperson",
+    phone: "+917986983885",
+    email: "kumarj@nitj.ac.in"
   },
   {
     name: "Dr. Deepak Sahu",
-    designation: "Organizing Secretary"
+    designation: "Organizing Secretary",
+    phone: "+918219215064",
+    email: "sahud@nitj.ac.in"
   },
   {
     name: "Dr. Nitin Naresh Pandhare",
-    designation: "Organizing Secretary"
+    designation: "Organizing Secretary",
+    phone: "+917579200586",
+    email: "pandharenn@nitj.ac.in"
   },
   {
     name: "Dr. Anjireddy Bhavanam",
-    designation: "Organizing Secretary"
+    designation: "Organizing Secretary",
+    phone: "+919848932241",
+    email: "bhavanama@nitj.ac.in"
   },
 ];
 
@@ -58,25 +103,85 @@ export const PREVIOUS_CONFERENCES = [
     year: "2020",
     description: "CHEMBIOEN 2020 featured more than 200 papers across 20 parallel technical sessions and 8 plenary talks, demonstrating a strong research culture and a vibrant academic exchange.",
     highlight: "200+ papers • 20 sessions • 8 plenaries",
-    brochureUrl: "/previous-conferences/Brochure - CHEMBIOEN-2020.pdf",
-    reportUrl: "/previous-conferences/Chembioen Report 2020.docx",
-    reportLabel: "Conference report"
+    archiveUrl: "/previous-conferences/2020",
+    resources: [
+      { title: "Conference brochure", fileName: "Brochure - CHEMBIOEN-2020.pdf", format: "PDF" },
+      { title: "Conference report", fileName: "ChemBioen Report 2020.docx", format: "DOCX" }
+    ],
+    highlights: [
+      { value: "200+", label: "research papers" },
+      { value: "20", label: "parallel sessions" },
+      { value: "8", label: "plenary talks" }
+    ],
+    imageUrl: "/previous-conferences/chembioen-2020-event-02.jpg",
+    imageAlt: "Invited guests and conference organizers hold inaugural publications in front of the CHEMBIOEN 2020 banner.",
+    imageCaption: "Conference guests and organizers at CHEMBIOEN 2020, February 13–14.",
+    gallery: [
+      {
+        imageUrl: "/previous-conferences/chembioen-2020-event-03.jpg",
+        imageAlt: "Conference organizers and participants gathered in front of the CHEMBIOEN 2020 banner.",
+        caption: "Organizers and participants at the conference venue."
+      },
+      {
+        imageUrl: "/previous-conferences/chembioen-2020-event-04.jpg",
+        imageAlt: "Delegates seated during a CHEMBIOEN 2020 conference session.",
+        caption: "Delegates and speakers during a conference session."
+      }
+    ],
+    pressCoverage: [
+      {
+        imageUrl: "/previous-conferences/chembioen-2020-press-coverage.png",
+        imageAlt: "Hindi newspaper coverage of the CHEMBIOEN 2020 international conference at NIT Jalandhar.",
+        caption: "Hindi-language newspaper coverage of CHEMBIOEN 2020."
+      },
+      {
+        imageUrl: "/previous-conferences/chembioen-2020-event-01.jpg",
+        imageAlt: "Jalandhar Tribune newspaper clipping about CHEMBIOEN 2020 and an expert's remarks on water pollution.",
+        caption: "Jalandhar Tribune · 14 February 2020"
+      }
+    ],
   },
   {
     year: "2021",
     description: "CHEMBIOEN 2021 drew in more than 350 research submissions, reflecting the growing interest in sustainable process engineering, bio-based technologies, and environmental solutions.",
     highlight: "350+ abstracts received",
-    brochureUrl: "/previous-conferences/Brochure CHEMBIOEN-2021.pdf",
-    reportUrl: "/previous-conferences/Newsletter chembioen21.docx",
-    reportLabel: "Newsletter"
+    archiveUrl: "/previous-conferences/2021",
+    highlights: [
+      { value: "350+", label: "abstracts received" }
+    ],
+    resources: [
+      { title: "Conference brochure", fileName: "Brochure CHEMBIOEN-2021.pdf", format: "PDF" },
+      { title: "Conference newsletter", fileName: "Newsletter chembioen21.docx", format: "DOCX" }
+    ]
   },
   {
     year: "2022",
     description: "CHEMBIOEN 2022 brought together around 250 papers and 600 participants, creating an engaging forum for researchers, scholars, and practitioners.",
     highlight: "250 papers • 600 participants",
-    brochureUrl: "/previous-conferences/CHEMBIOEN-2022Brochure.pdf",
-    reportUrl: "/previous-conferences/CHEMBIOEN 2022.docx",
-    reportLabel: "Conference report"
+    archiveUrl: "/previous-conferences/2022",
+    resources: [
+      { title: "Conference brochure", fileName: "CHEMBIOEN-2022Brochure.pdf", format: "PDF" },
+      { title: "Conference report", fileName: "CHEMBIOEN 2022.docx", format: "DOCX" }
+    ],
+    highlights: [
+      { value: "250", label: "research papers" },
+      { value: "600", label: "participants" }
+    ],
+    imageUrl: "/previous-conferences/chembioen-2022-event-03.jpg",
+    imageAlt: "CHEMBIOEN 2022 attendees pose for a group photograph outside the host institute.",
+    imageCaption: "Conference participants at B. V. Raju Institute of Technology.",
+    gallery: [
+      {
+        imageUrl: "/previous-conferences/chembioen-2022-event-01.jpg",
+        imageAlt: "A large group of students and faculty gathered at the CHEMBIOEN 2022 venue.",
+        caption: "Students and faculty gathered at the conference venue."
+      },
+      {
+        imageUrl: "/previous-conferences/chembioen-2022-event-02.jpg",
+        imageAlt: "Conference guests holding mementos during a CHEMBIOEN 2022 event.",
+        caption: "Guests and organizers during a conference presentation."
+      }
+    ]
   }
 ];
 

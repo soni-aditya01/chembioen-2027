@@ -6,6 +6,7 @@ import {
   ABSTRACT_SUBMISSION_URL,
   CONTACT_PERSONS,
   DEADLINES,
+  HOMEPAGE_CAMPUS_SLIDES,
   INVITED_SPEAKERS,
   PREVIOUS_CONFERENCES,
   PUBLICATIONS,
@@ -52,13 +53,10 @@ function Header() {
               </button>
               <div className="previous-conference-menu">
                 {PREVIOUS_CONFERENCES.map((conference) => (
-                  <div className="previous-conference-item" key={conference.year}>
+                  <Link className="previous-conference-item" key={conference.year} to={conference.archiveUrl} onClick={closeMenu}>
                     <strong>CHEMBIOEN {conference.year}</strong>
-                    <div className="previous-conference-downloads">
-                      <a href={conference.brochureUrl} download onClick={closeMenu}>Brochure PDF</a>
-                      <a href={conference.reportUrl} download onClick={closeMenu}>{conference.reportLabel}</a>
-                    </div>
-                  </div>
+                    <span>Overview, reports &amp; contacts <span aria-hidden="true">→</span></span>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -114,13 +112,80 @@ function Home() {
       <AnnouncementTicker />
 
       <section className="homepage-updates section" aria-label="Conference information">
-        <div className="container homepage-updates-grid">
-          <AnnouncementsCard />
-          <BrochureCard />
-          <SubmissionCard />
+        <div className="container">
+          <div className="homepage-campus-feature">
+            <div className="homepage-campus-copy">
+              <p className="eyebrow">Our conference home</p>
+              <h1>Welcome to NIT Jalandhar</h1>
+              <p>A glimpse of the campus hosting CHEMBIOEN 2027.</p>
+            </div>
+            <CampusSlideshow />
+          </div>
+          <div className="homepage-updates-grid">
+            <AnnouncementsCard />
+            <BrochureCard />
+            <SubmissionCard />
+          </div>
         </div>
       </section>
     </main>
+  );
+}
+
+function CampusSlideshow() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [paused, setPaused] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const activeSlide = HOMEPAGE_CAMPUS_SLIDES[activeIndex];
+
+  useEffect(() => {
+    if (paused) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setActiveIndex((index) => (index + 1) % HOMEPAGE_CAMPUS_SLIDES.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [paused]);
+
+  const showPrevious = () => {
+    setActiveIndex((index) => (index - 1 + HOMEPAGE_CAMPUS_SLIDES.length) % HOMEPAGE_CAMPUS_SLIDES.length);
+  };
+  const showNext = () => {
+    setActiveIndex((index) => (index + 1) % HOMEPAGE_CAMPUS_SLIDES.length);
+  };
+
+  return (
+    <div className="homepage-campus-slideshow" role="region" aria-label="NIT Jalandhar campus photos" aria-roledescription="carousel">
+      <figure className="homepage-campus-slide" aria-roledescription="slide" aria-label={`${activeIndex + 1} of ${HOMEPAGE_CAMPUS_SLIDES.length}`}>
+        <img src={activeSlide.image} alt={activeSlide.alt} />
+        <figcaption className="homepage-campus-caption">
+          <strong>{activeSlide.caption}</strong>
+          <span>
+            <a href={activeSlide.sourceUrl} target="_blank" rel="noopener noreferrer">Photo: {activeSlide.credit}</a>
+            {activeSlide.license && <> · <a href={activeSlide.licenseUrl} target="_blank" rel="noopener noreferrer">{activeSlide.license}</a></>}
+          </span>
+        </figcaption>
+      </figure>
+      <div className="homepage-campus-controls">
+        <div className="homepage-campus-dots" aria-label="Choose a campus photo">
+          {HOMEPAGE_CAMPUS_SLIDES.map((slide, index) => (
+            <button
+              className={`homepage-campus-dot${index === activeIndex ? " is-active" : ""}`}
+              key={slide.image}
+              type="button"
+              aria-label={`Show photo ${index + 1}: ${slide.caption}`}
+              aria-current={index === activeIndex ? "true" : undefined}
+              onClick={() => setActiveIndex(index)}
+            />
+          ))}
+        </div>
+        <div className="homepage-campus-actions">
+          <button type="button" aria-label="Show previous campus photo" onClick={showPrevious}>‹</button>
+          <button type="button" aria-label={paused ? "Play campus slideshow" : "Pause campus slideshow"} onClick={() => setPaused((value) => !value)}>{paused ? "▶" : "Ⅱ"}</button>
+          <button type="button" aria-label="Show next campus photo" onClick={showNext}>›</button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -256,21 +321,25 @@ function ContactPage() {
         </div>
       </section>
       <section className="section"><div className="container">
-        <div className="contact-people-heading"><span className="placeholder-badge">Phone numbers and emails not provided</span><h2>Conference contact persons</h2><p>Phone numbers and email addresses will be added when officially provided.</p></div>
-        <div className="contact-people-grid">{CONTACT_PERSONS.map((person) => <article className="contact-person-card" key={person.name}><h3>{person.name}</h3><p className="contact-person-role">{person.designation}</p><dl><div><dt>Phone</dt><dd>[TO BE PROVIDED]</dd></div><div><dt>Email</dt><dd>[TO BE PROVIDED]</dd></div></dl></article>)}</div>
+        <div className="contact-people-heading"><h2>Conference contact persons</h2><p>Contact the organizing team at the Department of Chemical Engineering, NIT Jalandhar.</p></div>
+        <div className="contact-people-grid">{CONTACT_PERSONS.map((person) => <article className="contact-person-card" key={person.name}><h3>{person.name}</h3><p className="contact-person-role">{person.designation}</p><dl><div><dt>Phone</dt><dd><a href={`tel:${person.phone}`}>{person.phone}</a></dd></div><div><dt>Email</dt><dd><a href={`mailto:${person.email}`}>{person.email}</a></dd></div></dl></article>)}</div>
       </div></section>
     </main>
   );
 }
 
-function FormDestination({ label, description, url }) {
+function FormDestination({ number, label, description, url }) {
   const formUrl = (url || "").trim();
   const isAvailable = isValidFormUrl(formUrl);
   const content = (
     <>
-      <span className="form-destination-icon" aria-hidden="true">{isAvailable ? "↗" : "○"}</span>
-      <span className="form-destination-copy"><strong>{label}</strong><span>{description}</span></span>
-      <span className="form-destination-status">{isAvailable ? "Open Google Form" : "Google Forms link to be added"}</span>
+      <span className="form-destination-number" aria-hidden="true">{number}</span>
+      <span className="form-destination-copy">
+        <span className="form-destination-kicker">{isAvailable ? "READY TO OPEN" : "COMING SOON"}</span>
+        <strong>{label}</strong>
+        <span>{description}</span>
+      </span>
+      <span className="form-destination-status">{isAvailable ? "Continue to form" : "Form link will be added"}<span aria-hidden="true">{isAvailable ? "↗" : "→"}</span></span>
     </>
   );
 
@@ -282,14 +351,47 @@ function FormDestination({ label, description, url }) {
 }
 
 function SubmissionRegistrationPage() {
+  const conferenceDates = DEADLINES.find(({ label }) => label === "Conference Dates")?.value;
+  const abstractDeadline = DEADLINES.find(({ label }) => label === "Abstract Submission Deadline")?.value;
+
   return (
     <main className="content-page">
-      <PageIntro eyebrow="For participants and authors" title="Abstract submission &amp; registration">Choose the appropriate Google Form to submit an abstract or register for the conference.</PageIntro>
-      <section className="section registration-section"><div className="container form-destination-list">
-        <FormDestination label="Abstract submission" description="Submit your abstract for consideration." url={ABSTRACT_SUBMISSION_URL} />
-        <FormDestination label="Conference registration" description="Register to attend the conference." url={REGISTRATION_URL} />
-        <p className="registration-note">The Google Forms links will be activated as soon as they are provided.</p>
-      </div></section>
+      <PageIntro eyebrow="Join the conversation" title="Abstract submission &amp; registration">Present your research or join us in Jalandhar. Choose the option that best describes how you’ll take part in CHEMBIOEN 2027.</PageIntro>
+      <section className="section registration-section">
+        <div className="container registration-layout">
+          <div className="registration-main">
+            <div className="registration-heading">
+              <p className="eyebrow">Take your next step</p>
+              <h2>How would you like to participate?</h2>
+              <p>Select an option below. The official online forms will be linked here as soon as they are available.</p>
+            </div>
+            <div className="form-destination-list">
+              <FormDestination number="01" label="Submit an abstract" description="Share your research for consideration in the conference programme." url={ABSTRACT_SUBMISSION_URL} />
+              <FormDestination number="02" label="Register to attend" description="Join researchers, academics and industry professionals at CHEMBIOEN 2027." url={REGISTRATION_URL} />
+            </div>
+            <p className="registration-note"><span aria-hidden="true">ⓘ</span> Online submission and registration links are coming soon. Please check back for updates.</p>
+          </div>
+          <aside className="registration-at-a-glance" aria-labelledby="registration-glance-title">
+            <p className="eyebrow">Plan your participation</p>
+            <h2 id="registration-glance-title">Conference at a glance</h2>
+            <div className="registration-glance-item">
+              <span className="registration-glance-icon" aria-hidden="true">◷</span>
+              <div><span>Conference dates</span><strong>{conferenceDates}</strong></div>
+            </div>
+            <div className="registration-glance-item">
+              <span className="registration-glance-icon" aria-hidden="true">⌖</span>
+              <div><span>Venue</span><strong>Dr. B. R. Ambedkar NIT Jalandhar</strong></div>
+            </div>
+            <div className="registration-glance-item">
+              <span className="registration-glance-icon" aria-hidden="true">▤</span>
+              <div><span>Abstract submission deadline</span><strong>{abstractDeadline}</strong></div>
+            </div>
+            <div className="registration-glance-divider" />
+            <p className="registration-glance-help">Need assistance with participation?</p>
+            <Link className="registration-contact-link" to="/contact">Contact the organizing team <span aria-hidden="true">→</span></Link>
+          </aside>
+        </div>
+      </section>
     </main>
   );
 }
@@ -404,6 +506,100 @@ function PublicationPage() {
   );
 }
 
+function PreviousConferenceArchivePage() {
+  const { year } = useParams();
+  const conference = PREVIOUS_CONFERENCES.find((item) => item.year === year && item.archiveUrl);
+  if (!conference) return <NotFound />;
+
+  return (
+    <main className="content-page">
+      <PageIntro eyebrow={`Previous conference · ${conference.year}`} title={`CHEMBIOEN ${conference.year}`}>A look back at the people, research and conversations that brought the conference together.</PageIntro>
+      <section className="section conference-archive-section">
+        <div className={`container conference-archive-layout${conference.imageUrl ? "" : " has-no-image"}`}>
+          {conference.imageUrl && (
+            <figure className="conference-archive-image">
+              <img src={conference.imageUrl} alt={conference.imageAlt} />
+              <figcaption>{conference.imageCaption}</figcaption>
+            </figure>
+          )}
+          <article className="conference-archive-summary">
+            <p className="eyebrow">A look back</p>
+            <h2>Research, dialogue and shared discovery</h2>
+            <p>{conference.description}</p>
+            <div className="conference-archive-stats" aria-label={`CHEMBIOEN ${conference.year} highlights`}>
+              {conference.highlights.map((highlight) => (
+                <div key={highlight.label}><strong>{highlight.value}</strong><span>{highlight.label}</span></div>
+              ))}
+            </div>
+            <Link className="inline-link" to="/">Explore CHEMBIOEN 2027 <span aria-hidden="true">→</span></Link>
+          </article>
+        </div>
+      </section>
+      <section className="section conference-archive-resources-section">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">Conference library</p>
+            <h2>Brochures &amp; reports</h2>
+            <p>Find conference publications and records in one place.</p>
+          </div>
+          <div className="conference-archive-resource-list">
+            {conference.resources.map((resource) => (
+              <article className="conference-archive-resource-card" key={resource.fileName}>
+                <span className="conference-archive-resource-format" aria-hidden="true">{resource.format}</span>
+                <div>
+                  <h3>{resource.title}</h3>
+                  <p>{resource.fileName}</p>
+                </div>
+                {resource.url
+                  ? <a className="conference-archive-resource-link" href={resource.url} download>Download {resource.format}</a>
+                  : <span className="conference-archive-resource-status">File not uploaded yet</span>}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      {conference.gallery?.length > 0 && (
+        <section className="section conference-archive-gallery-section">
+          <div className="container">
+            <div className="section-heading">
+              <p className="eyebrow">At the conference</p>
+              <h2>Moments from CHEMBIOEN {conference.year}</h2>
+              <p>A look back at the people, sessions and shared research that brought the conference together.</p>
+            </div>
+            <div className="conference-archive-gallery">
+              {conference.gallery.map((photo) => (
+                <figure className="conference-archive-gallery-card" key={photo.imageUrl}>
+                  <img src={photo.imageUrl} alt={photo.imageAlt} loading="lazy" />
+                  <figcaption>{photo.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+      {conference.pressCoverage && (
+        <section className="section conference-archive-press-section">
+          <div className="container">
+            <div className="section-heading">
+              <p className="eyebrow">In the media</p>
+              <h2>CHEMBIOEN {conference.year} in the press</h2>
+              <p>Newspaper coverage documenting the conference and its conversations on environmental engineering.</p>
+            </div>
+            <div className="conference-archive-press-grid">
+              {conference.pressCoverage.map((item) => (
+                <figure className="conference-archive-press-card" key={item.imageUrl}>
+                  <img src={item.imageUrl} alt={item.imageAlt} loading="lazy" />
+                  <figcaption>{item.caption}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </main>
+  );
+}
+
 function NotFound() {
   return <main className="not-found"><p className="eyebrow">PAGE NOT FOUND</p><h1>That page isn't here.</h1><Link className="button button-primary" to="/">Return to home</Link></main>;
 }
@@ -428,6 +624,7 @@ function App() {
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route path="/publications" element={<PublicationsPage />} />
         <Route path="/publications/:publicationId" element={<PublicationPage />} />
+        <Route path="/previous-conferences/:year" element={<PreviousConferenceArchivePage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <footer className="site-footer">
