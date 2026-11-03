@@ -1,4 +1,4 @@
-export const ABSTRACT_SUBMISSION_URL = "";
+export const ABSTRACT_SUBMISSION_URL = "https://forms.gle/m4scDPJEXdnW5axVA";
 export const REGISTRATION_URL = "";
 
 export const HOMEPAGE_CAMPUS_SLIDES = [
@@ -187,22 +187,69 @@ export const PREVIOUS_CONFERENCES = [
 
 export const INVITED_SPEAKERS = [
   {
-    name: "Speaker profile",
-    designation: "To be announced",
-    affiliation: "Academic or industry expert",
-    topic: "Research topic to be confirmed"
+    name: "Dr. Praveen Kumar",
+    designation: "Expert",
+    affiliation: "University of Ljubljana, Slovenia",
+    topic: "Application of photocatalysts in environmental engineering",
+    date: "12 February 2027",
+    initials: "PK"
   },
   {
-    name: "Speaker profile",
-    designation: "To be announced",
-    affiliation: "Academic or industry expert",
-    topic: "Research topic to be confirmed"
+    name: "Dr. Navneet Kumar",
+    designation: "Expert",
+    affiliation: "Department of Chemical and Biological Engineering, University of Saskatchewan, Saskatoon, Canada",
+    topic: "Recent advancements in energy and the environment",
+    date: "12 February 2027",
+    initials: "NK"
   },
   {
-    name: "Speaker profile",
-    designation: "To be announced",
-    affiliation: "Academic or industry expert",
-    topic: "Research topic to be confirmed"
+    name: "Dr. Gautam Gupta",
+    designation: "Professor",
+    affiliation: "Department of Chemical Engineering, University of Louisville, Louisville, Kentucky, USA",
+    topic: "Clean energy",
+    date: "12 February 2027",
+    initials: "GG"
+  },
+  {
+    name: "Dr. Rakseh Vir Jasra",
+    designation: "Senior Vice President",
+    affiliation: "Reliance Technology Group, Reliance Industries Limited, India",
+    topic: "Photocatalytic materials for production of hydrogen from water using solar energy",
+    date: "12 February 2027",
+    initials: "RJ",
+    topicUrl: "https://scholar.google.co.in/citations?view_op=view_citation&hl=en&user=rfR1yvgAAAAJ&cstart=300&pagesize=100&citation_for_view=rfR1yvgAAAAJ:ifOnle78iJkC"
+  },
+  {
+    name: "Prof. Parag Arvind Deshpande",
+    designation: "Professor",
+    affiliation: "Department of Chemical Engineering, Indian Institute of Technology Jodhpur, Rajasthan, India",
+    topic: "Novel catalytic materials for clean energy and environmental applications",
+    date: "12 February 2027",
+    initials: "PD"
+  },
+  {
+    name: "Dr. Soumitra Maiti",
+    designation: "Principal Scientist",
+    affiliation: "CSIR–Central Building Research Institute (CBRI), Roorkee",
+    topic: "Environmental sustainability",
+    date: "13 February 2027",
+    initials: "SM"
+  },
+  {
+    name: "Prof. P. Biswas",
+    designation: "Professor",
+    affiliation: "Chemical Engineering, Indian Institute of Technology Roorkee",
+    topic: "Catalysis and its applications",
+    date: "12 February 2027",
+    initials: "PB"
+  },
+  {
+    name: "Prof. Vimal Chandra Srivastava",
+    designation: "Professor",
+    affiliation: "Chemical Engineering, Indian Institute of Technology Roorkee",
+    topic: "Environmental engineering",
+    date: "12 February 2027",
+    initials: "VS"
   }
 ];
 

@@ -269,20 +269,60 @@ function ThematicAreasPage() {
 }
 
 function InvitedSpeakersPage() {
+  const speakerDates = [...new Set(INVITED_SPEAKERS.map((speaker) => speaker.date))];
+
   return (
     <main className="content-page">
-      <PageIntro eyebrow="Conference speakers" title="Invited Speakers">Speaker names, designations, and affiliations will be added here when officially announced.</PageIntro>
-      <section className="section"><div className="container speaker-grid">
-        {INVITED_SPEAKERS.map((speaker, index) => (
-          <article className="speaker-card" key={`${speaker.name}-${index}`}>
-            <div className="speaker-avatar" aria-hidden="true">{speaker.name.split(" ")[0].slice(0, 2).toUpperCase()}</div>
-            <h3>{speaker.name}</h3>
-            <p className="speaker-role">{speaker.designation}</p>
-            <p>{speaker.affiliation}</p>
-            <span>{speaker.topic}</span>
-          </article>
-        ))}
-      </div></section>
+      <PageIntro eyebrow="CHEMBIOEN 2027 · Featured experts" title="Invited Speakers">Meet the experts joining us to share ideas and perspectives across chemical, bio and environmental engineering.</PageIntro>
+      <section className="speaker-overview">
+        <div className="container speaker-overview-inner">
+          <div>
+            <p className="speaker-overview-label">A global exchange of ideas</p>
+            <h2>Research that moves<br />engineering forward.</h2>
+          </div>
+          <div className="speaker-overview-meta">
+            <div><strong>{INVITED_SPEAKERS.length}</strong><span>invited experts</span></div>
+            <div><strong>{speakerDates.length}</strong><span>conference days</span></div>
+            <p>International and national perspectives in one forum.</p>
+          </div>
+        </div>
+      </section>
+      <section className="section invited-speakers-section">
+        <div className="container">
+          {speakerDates.map((date, dateIndex) => {
+            const speakersForDate = INVITED_SPEAKERS.filter((speaker) => speaker.date === date);
+
+            return (
+              <section className="speaker-day" key={date} aria-labelledby={`speaker-day-${dateIndex}`}>
+                <div className="speaker-day-heading">
+                  <span className="speaker-day-index">DAY 0{dateIndex + 1}</span>
+                  <h2 id={`speaker-day-${dateIndex}`}>{date}</h2>
+                  <span className="speaker-day-count">{speakersForDate.length} invited {speakersForDate.length === 1 ? "expert" : "experts"}</span>
+                </div>
+                <div className="speaker-grid">
+                  {speakersForDate.map((speaker, index) => (
+                    <article className="invited-speaker-card" key={speaker.name} style={{ "--speaker-order": index }}>
+                      <div className="invited-speaker-card-top">
+                        <div className="speaker-avatar" aria-hidden="true">{speaker.initials}</div>
+                        <span className="invited-speaker-number">{String(index + 1).padStart(2, "0")}</span>
+                      </div>
+                      <p className="invited-speaker-designation">{speaker.designation}</p>
+                      <h3>{speaker.name}</h3>
+                      <p className="invited-speaker-affiliation">{speaker.affiliation}</p>
+                      <div className="invited-speaker-topic">
+                        <span className="invited-speaker-topic-label">TALKING ABOUT</span>
+                        {speaker.topicUrl
+                          ? <a href={speaker.topicUrl} target="_blank" rel="noopener noreferrer">{speaker.topic} <span aria-hidden="true">↗</span></a>
+                          : <p>{speaker.topic}</p>}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      </section>
     </main>
   );
 }
@@ -363,13 +403,13 @@ function SubmissionRegistrationPage() {
             <div className="registration-heading">
               <p className="eyebrow">Take your next step</p>
               <h2>How would you like to participate?</h2>
-              <p>Select an option below. The official online forms will be linked here as soon as they are available.</p>
+              <p>Submit your abstract using the online form. Registration details will be added when available.</p>
             </div>
             <div className="form-destination-list">
               <FormDestination number="01" label="Submit an abstract" description="Share your research for consideration in the conference programme." url={ABSTRACT_SUBMISSION_URL} />
               <FormDestination number="02" label="Register to attend" description="Join researchers, academics and industry professionals at CHEMBIOEN 2027." url={REGISTRATION_URL} />
             </div>
-            <p className="registration-note"><span aria-hidden="true">ⓘ</span> Online submission and registration links are coming soon. Please check back for updates.</p>
+            <p className="registration-note"><span aria-hidden="true">ⓘ</span> Abstract submission is open. The registration link will be added when available.</p>
           </div>
           <aside className="registration-at-a-glance" aria-labelledby="registration-glance-title">
             <p className="eyebrow">Plan your participation</p>
