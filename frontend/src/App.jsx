@@ -269,8 +269,6 @@ function ThematicAreasPage() {
 }
 
 function InvitedSpeakersPage() {
-  const speakerDates = [...new Set(INVITED_SPEAKERS.map((speaker) => speaker.date))];
-
   return (
     <main className="content-page">
       <PageIntro eyebrow="CHEMBIOEN 2027 · Featured experts" title="Invited Speakers">Meet the experts joining us to share ideas and perspectives across chemical, bio and environmental engineering.</PageIntro>
@@ -282,45 +280,31 @@ function InvitedSpeakersPage() {
           </div>
           <div className="speaker-overview-meta">
             <div><strong>{INVITED_SPEAKERS.length}</strong><span>invited experts</span></div>
-            <div><strong>{speakerDates.length}</strong><span>conference days</span></div>
             <p>International and national perspectives in one forum.</p>
           </div>
         </div>
       </section>
       <section className="section invited-speakers-section">
         <div className="container">
-          {speakerDates.map((date, dateIndex) => {
-            const speakersForDate = INVITED_SPEAKERS.filter((speaker) => speaker.date === date);
-
-            return (
-              <section className="speaker-day" key={date} aria-labelledby={`speaker-day-${dateIndex}`}>
-                <div className="speaker-day-heading">
-                  <span className="speaker-day-index">DAY 0{dateIndex + 1}</span>
-                  <h2 id={`speaker-day-${dateIndex}`}>{date}</h2>
-                  <span className="speaker-day-count">{speakersForDate.length} invited {speakersForDate.length === 1 ? "expert" : "experts"}</span>
+          <div className="speaker-grid">
+            {INVITED_SPEAKERS.map((speaker, index) => (
+              <article className="invited-speaker-card" key={speaker.name} style={{ "--speaker-order": index }}>
+                <div className="invited-speaker-card-top">
+                  <div className="speaker-avatar" aria-hidden="true">{speaker.initials}</div>
+                  <span className="invited-speaker-number">{String(index + 1).padStart(2, "0")}</span>
                 </div>
-                <div className="speaker-grid">
-                  {speakersForDate.map((speaker, index) => (
-                    <article className="invited-speaker-card" key={speaker.name} style={{ "--speaker-order": index }}>
-                      <div className="invited-speaker-card-top">
-                        <div className="speaker-avatar" aria-hidden="true">{speaker.initials}</div>
-                        <span className="invited-speaker-number">{String(index + 1).padStart(2, "0")}</span>
-                      </div>
-                      <p className="invited-speaker-designation">{speaker.designation}</p>
-                      <h3>{speaker.name}</h3>
-                      <p className="invited-speaker-affiliation">{speaker.affiliation}</p>
-                      <div className="invited-speaker-topic">
-                        <span className="invited-speaker-topic-label">TALKING ABOUT</span>
-                        {speaker.topicUrl
-                          ? <a href={speaker.topicUrl} target="_blank" rel="noopener noreferrer">{speaker.topic} <span aria-hidden="true">↗</span></a>
-                          : <p>{speaker.topic}</p>}
-                      </div>
-                    </article>
-                  ))}
+                <p className="invited-speaker-designation">{speaker.designation}</p>
+                <h3>{speaker.name}</h3>
+                <p className="invited-speaker-affiliation">{speaker.affiliation}</p>
+                <div className="invited-speaker-topic">
+                  <span className="invited-speaker-topic-label">TALKING ABOUT</span>
+                  {speaker.topicUrl
+                    ? <a href={speaker.topicUrl} target="_blank" rel="noopener noreferrer">{speaker.topic} <span aria-hidden="true">↗</span></a>
+                    : <p>{speaker.topic}</p>}
                 </div>
-              </section>
-            );
-          })}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </main>
@@ -393,6 +377,7 @@ function FormDestination({ number, label, description, url }) {
 function SubmissionRegistrationPage() {
   const conferenceDates = DEADLINES.find(({ label }) => label === "Conference Dates")?.value;
   const abstractDeadline = DEADLINES.find(({ label }) => label === "Abstract Submission Deadline")?.value;
+  const registrationDeadline = DEADLINES.find(({ label }) => label === "Registration Deadline")?.value;
 
   return (
     <main className="content-page">
@@ -425,6 +410,10 @@ function SubmissionRegistrationPage() {
             <div className="registration-glance-item">
               <span className="registration-glance-icon" aria-hidden="true">▤</span>
               <div><span>Abstract submission deadline</span><strong>{abstractDeadline}</strong></div>
+            </div>
+            <div className="registration-glance-item">
+              <span className="registration-glance-icon" aria-hidden="true">◷</span>
+              <div><span>Registration deadline</span><strong>{registrationDeadline}</strong></div>
             </div>
             <div className="registration-glance-divider" />
             <p className="registration-glance-help">Need assistance with participation?</p>
@@ -591,7 +580,13 @@ function PreviousConferenceArchivePage() {
                   <p>{resource.fileName}</p>
                 </div>
                 {resource.url
-                  ? <a className="conference-archive-resource-link" href={resource.url} download>Download {resource.format}</a>
+                  ? <a
+                    className="conference-archive-resource-link"
+                    href={resource.url}
+                    target={resource.format === "PDF" ? "_blank" : undefined}
+                    rel={resource.format === "PDF" ? "noopener noreferrer" : undefined}
+                    download={resource.format === "PDF" ? undefined : true}
+                  >{resource.format === "PDF" ? "Open PDF" : `Download ${resource.format}`}</a>
                   : <span className="conference-archive-resource-status">File not uploaded yet</span>}
               </article>
             ))}

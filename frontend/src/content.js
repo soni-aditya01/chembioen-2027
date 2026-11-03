@@ -41,7 +41,7 @@ export const HOMEPAGE_CAMPUS_SLIDES = [
 export const DEADLINES = [
   { label: "Conference Dates", value: "12–13 February 2027" },
   { label: "Abstract Submission Deadline", value: "15 December 2026" },
-  { label: "Registration Deadline", value: "To be announced" },
+  { label: "Registration Deadline", value: "15 January 2027" },
   { label: "Notification of Acceptance", value: "To be announced" }
 ];
 
@@ -105,8 +105,8 @@ export const PREVIOUS_CONFERENCES = [
     highlight: "200+ papers • 20 sessions • 8 plenaries",
     archiveUrl: "/previous-conferences/2020",
     resources: [
-      { title: "Conference brochure", fileName: "Brochure - CHEMBIOEN-2020.pdf", format: "PDF" },
-      { title: "Conference report", fileName: "ChemBioen Report 2020.docx", format: "DOCX" }
+      { title: "Conference brochure", fileName: "Brochure - CHEMBIOEN-2020.pdf", format: "PDF", url: "/previous-conferences/chembioen-2020-brochure.pdf" },
+      { title: "Conference report", fileName: "Chembioen Report 2020.docx", format: "DOCX", url: "/previous-conferences/chembioen-2020-report.docx" }
     ],
     highlights: [
       { value: "200+", label: "research papers" },
@@ -150,8 +150,8 @@ export const PREVIOUS_CONFERENCES = [
       { value: "350+", label: "abstracts received" }
     ],
     resources: [
-      { title: "Conference brochure", fileName: "Brochure CHEMBIOEN-2021.pdf", format: "PDF" },
-      { title: "Conference newsletter", fileName: "Newsletter chembioen21.docx", format: "DOCX" }
+      { title: "Conference brochure", fileName: "Brochure CHEMBIOEN-2021.pdf", format: "PDF", url: "/previous-conferences/chembioen-2021-brochure.pdf" },
+      { title: "Conference newsletter", fileName: "Newsletter chembioen21.docx", format: "DOCX", url: "/previous-conferences/chembioen-2021-newsletter.docx" }
     ]
   },
   {
@@ -160,8 +160,8 @@ export const PREVIOUS_CONFERENCES = [
     highlight: "250 papers • 600 participants",
     archiveUrl: "/previous-conferences/2022",
     resources: [
-      { title: "Conference brochure", fileName: "CHEMBIOEN-2022Brochure.pdf", format: "PDF" },
-      { title: "Conference report", fileName: "CHEMBIOEN 2022.docx", format: "DOCX" }
+      { title: "Conference brochure", fileName: "CHEMBIOEN-2022Brochure.pdf", format: "PDF", url: "/previous-conferences/chembioen-2022-brochure.pdf" },
+      { title: "Conference report", fileName: "CHEMBIOEN 2022.docx", format: "DOCX", url: "/previous-conferences/chembioen-2022-report.docx" }
     ],
     highlights: [
       { value: "250", label: "research papers" },
@@ -191,7 +191,6 @@ export const INVITED_SPEAKERS = [
     designation: "Expert",
     affiliation: "University of Ljubljana, Slovenia",
     topic: "Application of photocatalysts in environmental engineering",
-    date: "12 February 2027",
     initials: "PK"
   },
   {
@@ -199,7 +198,6 @@ export const INVITED_SPEAKERS = [
     designation: "Expert",
     affiliation: "Department of Chemical and Biological Engineering, University of Saskatchewan, Saskatoon, Canada",
     topic: "Recent advancements in energy and the environment",
-    date: "12 February 2027",
     initials: "NK"
   },
   {
@@ -207,7 +205,6 @@ export const INVITED_SPEAKERS = [
     designation: "Professor",
     affiliation: "Department of Chemical Engineering, University of Louisville, Louisville, Kentucky, USA",
     topic: "Clean energy",
-    date: "12 February 2027",
     initials: "GG"
   },
   {
@@ -215,7 +212,6 @@ export const INVITED_SPEAKERS = [
     designation: "Senior Vice President",
     affiliation: "Reliance Technology Group, Reliance Industries Limited, India",
     topic: "Photocatalytic materials for production of hydrogen from water using solar energy",
-    date: "12 February 2027",
     initials: "RJ",
     topicUrl: "https://scholar.google.co.in/citations?view_op=view_citation&hl=en&user=rfR1yvgAAAAJ&cstart=300&pagesize=100&citation_for_view=rfR1yvgAAAAJ:ifOnle78iJkC"
   },
@@ -224,7 +220,6 @@ export const INVITED_SPEAKERS = [
     designation: "Professor",
     affiliation: "Department of Chemical Engineering, Indian Institute of Technology Jodhpur, Rajasthan, India",
     topic: "Novel catalytic materials for clean energy and environmental applications",
-    date: "12 February 2027",
     initials: "PD"
   },
   {
@@ -232,7 +227,6 @@ export const INVITED_SPEAKERS = [
     designation: "Principal Scientist",
     affiliation: "CSIR–Central Building Research Institute (CBRI), Roorkee",
     topic: "Environmental sustainability",
-    date: "13 February 2027",
     initials: "SM"
   },
   {
@@ -240,7 +234,6 @@ export const INVITED_SPEAKERS = [
     designation: "Professor",
     affiliation: "Chemical Engineering, Indian Institute of Technology Roorkee",
     topic: "Catalysis and its applications",
-    date: "12 February 2027",
     initials: "PB"
   },
   {
@@ -248,7 +241,6 @@ export const INVITED_SPEAKERS = [
     designation: "Professor",
     affiliation: "Chemical Engineering, Indian Institute of Technology Roorkee",
     topic: "Environmental engineering",
-    date: "12 February 2027",
     initials: "VS"
   }
 ];
