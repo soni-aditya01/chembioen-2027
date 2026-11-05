@@ -44,8 +44,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .host-placeholder > span { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgb(255 255 255 / 40%); border-radius: 50%; font-family: Manrope, "Segoe UI", sans-serif; font-size: 20px; font-weight: 750; }
 .host-placeholder small { color: #d0e0e8; font-size: 11.25px; line-height: 1.5; }
 .nav-content, .nav-links, .nav-actions { display: flex; align-items: center; }
-.nav-content { gap: 18px; }
-.nav-links { gap: clamp(9px, 1vw, 16px); }
+.nav-content { gap: 24px; }
+.nav-links { gap: clamp(14px, 1.2vw, 20px); }
 .nav-links > a { padding: 12px 0; color: #edf5fb; font-size: 17px; font-weight: 650; text-decoration: none; white-space: nowrap; transition: color .18s ease; }
 .nav-links > a:hover, .nav-links > a.active { color: #f0c570; }
 .nav-dropdown { position: relative; }
@@ -58,7 +58,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .previous-conference-item:last-child { border-bottom: 0; }
 .previous-conference-item > strong { display: block; margin-bottom: 8px; color: var(--navy); font-size: 14px; }
 .previous-conference-item > span { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--blue); font-size: 12px; font-weight: 650; }
-.nav-actions { gap: 15px; }
+.nav-actions { gap: 20px; }
 .nav-actions .button-small { font-size: 16.5px; }
 .menu-toggle { display: none; }
 .button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; gap: 12px; border: 1px solid transparent; border-radius: 3px; padding: 12px 19px; font-size: 15px; font-weight: 700; text-align: center; text-decoration: none; transition: background .18s ease, transform .18s ease, border-color .18s ease; }
@@ -356,7 +356,7 @@ a.form-destination:hover { transform: translateY(-2px); box-shadow: 0 13px 28px 
 
 @media (max-width: 1300px) {
   .host-placeholder { display: none; }
-  .nav-links { gap: 9px; }
+  .nav-links { gap: 14px; }
   .nav-links > a { font-size: 15.5px; }
   .nav-dropdown-trigger { font-size: 15.5px; }
 }
