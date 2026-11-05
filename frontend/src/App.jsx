@@ -542,7 +542,28 @@ function PreviousConferenceArchivePage() {
 
   return (
     <main className="content-page">
-      <PageIntro eyebrow={`Previous conference · ${conference.year}`} title={`CHEMBIOEN ${conference.year}`}>A look back at the people, research and conversations that brought the conference together.</PageIntro>
+      <section className="page-intro conference-archive-intro">
+        <div className="container">
+          <div className="conference-archive-intro-copy">
+            <p className="eyebrow">Previous conference · {conference.year}</p>
+            <h1>CHEMBIOEN {conference.year}</h1>
+            <p>A look back at the people, research and conversations that brought the conference together.</p>
+          </div>
+          {conference.publicationPartners?.length > 0 && (
+            <aside className="conference-archive-publication-partners" aria-label={`CHEMBIOEN ${conference.year} publication partners`}>
+              <p className="eyebrow">Publication partners</p>
+              <div>
+                {conference.publicationPartners.map((partner) => (
+                  <figure key={partner.imageUrl}>
+                    <img src={partner.imageUrl} alt={partner.imageAlt} />
+                    <figcaption>{partner.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </aside>
+          )}
+        </div>
+      </section>
       <section className="section conference-archive-section">
         <div className={`container conference-archive-layout${conference.imageUrl ? "" : " has-no-image"}`}>
           {conference.imageUrl && (

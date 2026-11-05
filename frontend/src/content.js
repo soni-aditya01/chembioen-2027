@@ -108,6 +108,13 @@ export const PREVIOUS_CONFERENCES = [
       { title: "Conference brochure", fileName: "Brochure - CHEMBIOEN-2020.pdf", format: "PDF", url: "/previous-conferences/chembioen-2020-brochure.pdf" },
       { title: "Conference report", fileName: "Chembioen Report 2020.docx", format: "DOCX", url: "/previous-conferences/chembioen-2020-report.docx" }
     ],
+    publicationPartners: [
+      {
+        imageUrl: "/previous-conferences/chembioen-2020-publication-partner.jpg",
+        imageAlt: "Cover of the Journal of the Indian Chemical Society, a CHEMBIOEN 2020 publication partner.",
+        caption: "Journal of the Indian Chemical Society"
+      }
+    ],
     highlights: [
       { value: "200+", label: "research papers" },
       { value: "20", label: "parallel sessions" },
@@ -152,6 +159,25 @@ export const PREVIOUS_CONFERENCES = [
     resources: [
       { title: "Conference brochure", fileName: "Brochure CHEMBIOEN-2021.pdf", format: "PDF", url: "/previous-conferences/chembioen-2021-brochure.pdf" },
       { title: "Conference newsletter", fileName: "Newsletter chembioen21.docx", format: "DOCX", url: "/previous-conferences/chembioen-2021-newsletter.docx" }
+    ],
+    gallery: [
+      {
+        imageUrl: "/previous-conferences/chembioen-2021-event-05.jpeg",
+        imageAlt: "CHEMBIOEN 2021 inaugural session and event publication-partner display.",
+        caption: "Inaugural session and publication-partner display at CHEMBIOEN 2021."
+      }
+    ],
+    publicationPartners: [
+      {
+        imageUrl: "/previous-conferences/chembioen-2021-publication-partner-01.webp",
+        imageAlt: "Cover of Environmental Science and Pollution Research, a CHEMBIOEN 2021 publication partner.",
+        caption: "Environmental Science and Pollution Research"
+      },
+      {
+        imageUrl: "/previous-conferences/chembioen-2021-publication-partner-02.webp",
+        imageAlt: "Cover of Nanotechnology for Environmental Engineering, a CHEMBIOEN 2021 publication partner.",
+        caption: "Nanotechnology for Environmental Engineering"
+      }
     ]
   },
   {
