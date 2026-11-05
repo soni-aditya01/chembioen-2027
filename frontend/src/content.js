@@ -165,6 +165,16 @@ export const PREVIOUS_CONFERENCES = [
         imageUrl: "/previous-conferences/chembioen-2021-event-05.jpeg",
         imageAlt: "CHEMBIOEN 2021 inaugural session and event publication-partner display.",
         caption: "Inaugural session and publication-partner display at CHEMBIOEN 2021."
+      },
+      {
+        imageUrl: "/previous-conferences/chembioen-2021-event-06.jpg",
+        imageAlt: "CHEMBIOEN 2021 attendees and organizers gathered for a group photograph.",
+        caption: "Conference attendees and organizers at CHEMBIOEN 2021."
+      },
+      {
+        imageUrl: "/previous-conferences/chembioen-2021-event-07.jpg",
+        imageAlt: "Speakers and organizers present conference publications during a CHEMBIOEN 2021 session.",
+        caption: "Conference publications presented during a CHEMBIOEN 2021 session."
       }
     ],
     publicationPartners: [
@@ -177,6 +187,11 @@ export const PREVIOUS_CONFERENCES = [
         imageUrl: "/previous-conferences/chembioen-2021-publication-partner-02.webp",
         imageAlt: "Cover of Nanotechnology for Environmental Engineering, a CHEMBIOEN 2021 publication partner.",
         caption: "Nanotechnology for Environmental Engineering"
+      },
+      {
+        imageUrl: "/previous-conferences/chembioen-2021-publication-partner-03.jpg",
+        imageAlt: "Cover of Environmental Technology & Innovation, a CHEMBIOEN 2021 publication partner.",
+        caption: "Environmental Technology & Innovation"
       }
     ]
   },
